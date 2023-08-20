@@ -1,4 +1,4 @@
-﻿namespace Trainify.Me_Api.Controllers.Shared
+﻿namespace Trainify.Me_Api.Application.Controllers.Shared
 {
     public class ApiResponse<T> where T : class?
     {

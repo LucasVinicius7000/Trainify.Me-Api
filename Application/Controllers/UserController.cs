@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
-using Trainify.Me_Api.Controllers.Shared;
+using Trainify.Me_Api.Application.Controllers.Shared;
 
-namespace Trainify.Me_Api.Controllers
+namespace Trainify.Me_Api.Application.Controllers
 {
     public class UserController : BaseController<UserController>
     {
@@ -10,7 +10,7 @@ namespace Trainify.Me_Api.Controllers
 
 
         [HttpGet]
-        public ApiResponse<string> Get()
+        public ApiResponse<string> Login()
         {
             return ApiResponse<string>.SucessResponse("UserController", "No data");   
         }
