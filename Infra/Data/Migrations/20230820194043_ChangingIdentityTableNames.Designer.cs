@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Trainify.Me_Api.Infra.Data.Context;
 
@@ -11,9 +12,10 @@ using Trainify.Me_Api.Infra.Data.Context;
 namespace Trainify.Me_Api.Infra.Data.Migrations
 {
     [DbContext(typeof(TrainifyMeDbContext))]
-    partial class TrainifyMeDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230820194043_ChangingIdentityTableNames")]
+    partial class ChangingIdentityTableNames
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -153,47 +155,6 @@ namespace Trainify.Me_Api.Infra.Data.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("UserTokens", (string)null);
-                });
-
-            modelBuilder.Entity("Trainify.Me_Api.Domain.Entities.Aluno", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<DateTime>("DataAdmissao")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("DataNascimento")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Nome")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("OrganizacaoId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Sexo")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TreinadorId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("OrganizacaoId");
-
-                    b.HasIndex("TreinadorId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Alunos");
                 });
 
             modelBuilder.Entity("Trainify.Me_Api.Domain.Entities.Organizacao", b =>
@@ -378,31 +339,6 @@ namespace Trainify.Me_Api.Infra.Data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Trainify.Me_Api.Domain.Entities.Aluno", b =>
-                {
-                    b.HasOne("Trainify.Me_Api.Domain.Entities.Organizacao", "Organizacao")
-                        .WithMany("Alunos")
-                        .HasForeignKey("OrganizacaoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Trainify.Me_Api.Domain.Entities.Treinador", "Treinador")
-                        .WithMany("Alunos")
-                        .HasForeignKey("TreinadorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Trainify.Me_Api.Domain.Entities.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId");
-
-                    b.Navigation("Organizacao");
-
-                    b.Navigation("Treinador");
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("Trainify.Me_Api.Domain.Entities.Organizacao", b =>
                 {
                     b.HasOne("Trainify.Me_Api.Domain.Entities.User", "User")
@@ -431,14 +367,7 @@ namespace Trainify.Me_Api.Infra.Data.Migrations
 
             modelBuilder.Entity("Trainify.Me_Api.Domain.Entities.Organizacao", b =>
                 {
-                    b.Navigation("Alunos");
-
                     b.Navigation("Treinadores");
-                });
-
-            modelBuilder.Entity("Trainify.Me_Api.Domain.Entities.Treinador", b =>
-                {
-                    b.Navigation("Alunos");
                 });
 #pragma warning restore 612, 618
         }

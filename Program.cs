@@ -1,6 +1,8 @@
 using Trainify.Me_Api.Infra.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
+using Trainify.Me_Api.Infra.Data.Repositories;
+using Trainify.Me_Api.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,6 +23,9 @@ builder.Services.AddControllers().AddNewtonsoftJson(
 builder.Services.AddDbContext<TrainifyMeDbContext>(options =>
     options.UseSqlServer(configuration.GetConnectionString("TrainifyMeDb"))
 );
+
+builder.Services.AddScoped<IService, Service>();
+builder.Services.AddScoped<IRepository, Repository>();
 
 builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
 {
@@ -85,6 +90,7 @@ async Task CreateRoles(IServiceProvider serviceProvider)
 
 async Task CreateDefaultAdminUser(IServiceProvider serviceProvider)
 {
+
     var userManager = serviceProvider.GetRequiredService<UserManager<IdentityUser>>();
     var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
     var configuration = serviceProvider.GetRequiredService<IConfiguration>();
