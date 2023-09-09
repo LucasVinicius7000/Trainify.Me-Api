@@ -55,11 +55,7 @@ namespace Trainify.Me_Api.Infra.Data.Context
 
             #endregion
 
-
             #region Organização
-
-            builder.Entity<Organizacao>()
-                .HasOne(o => o.User);
 
             builder.Entity<Organizacao>()
                 .HasMany(o => o.Treinadores)
@@ -71,8 +67,12 @@ namespace Trainify.Me_Api.Infra.Data.Context
                 .WithOne(a => a.Organizacao)
                 .HasForeignKey(a => a.OrganizacaoId);
 
-            #endregion
+            builder.Entity<Organizacao>()
+                .HasOne(o => o.User)
+                .WithOne()
+                .HasForeignKey<Organizacao>(o => o.UserId);
 
+            #endregion
 
             #region Treinador
 
