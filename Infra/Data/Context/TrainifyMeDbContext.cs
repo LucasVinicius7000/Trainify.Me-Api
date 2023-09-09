@@ -24,6 +24,21 @@ namespace Trainify.Me_Api.Infra.Data.Context
             get { return Set<Aluno>(); }
         }
 
+        public DbSet<Curso> Cursos
+        {
+            get { return Set<Curso>(); }
+        }
+
+        public DbSet<Aula> Aulas
+        {
+            get { return Set<Aula>(); }
+        }
+
+        public DbSet<Atividade> Atividades
+        {
+            get { return Set<Atividade>(); }
+        }
+
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -85,7 +100,39 @@ namespace Trainify.Me_Api.Infra.Data.Context
 
             #region Curso
 
-            
+            builder.Entity<Curso>()
+                .HasOne(c => c.OrganizacaoPertencente)
+                .WithMany(o => o.Cursos)
+                .HasForeignKey(c => c.OrganizacaoId);
+
+            builder.Entity<Curso>()
+                .HasMany(c => c.Aulas)
+                .WithOne(a => a.Curso)
+                .HasForeignKey(a => a.CursoId);
+
+            #endregion
+
+            #region Aula
+
+            builder.Entity<Aula>()
+                .HasOne(al => al.Atividade)
+                .WithOne(at => at.AulaPertencente)
+                .HasForeignKey<Atividade>(at => at.AulaId);
+
+            #endregion
+
+            #region Atividade
+
+            builder.Entity<Atividade>()
+                .HasMany(a => a.Alternativas)
+                .WithOne(alt => alt.Atividade)
+                .HasForeignKey(alt => alt.AtividadeId);
+
+            builder.Entity<Atividade>()
+                .HasOne(a => a.AlternativaCorreta)
+                .WithOne()
+                .HasForeignKey<Atividade>(a => a.AlternativaCorretaId)
+                .OnDelete(DeleteBehavior.NoAction);
 
             #endregion
 

@@ -6,6 +6,7 @@ namespace Trainify.Me_Api.Domain.Entities
     public class Treinador
     {
         public int Id { get; set; }
+        public int UserId { get; set; }
         public int OrganizacaoId { get; set; }
         public string Nome { get; set; }
         public DateTime DataNascimento { get;set; }
@@ -16,10 +17,8 @@ namespace Trainify.Me_Api.Domain.Entities
 
         [NotMapped]
         public User User { get; set; }
-
         [NotMapped]
         public List<Aluno> Alunos { get; set; }
-
         [NotMapped]
         public Organizacao Organizacao { get; set; }
         

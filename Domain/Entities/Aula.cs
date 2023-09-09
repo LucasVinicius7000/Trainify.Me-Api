@@ -7,15 +7,16 @@ namespace Trainify.Me_Api.Domain.Entities
     {
         public int Id { get; set; }
         public int CursoId { get; set; }
+        public int? AtividadeId { get; set; }  
+        public string Titulo { get; set; }
         public TipoAula TipoAula { get;set;}
         public string? VideoUrl { get; set; }
         public string? PDFUrl { get; set; }
 
         [NotMapped]
         public Curso Curso { get; set; }
-
-        //[NotMapped]
-        //public Atividade? Atividade { get; set; }
+        [NotMapped]
+        public Atividade? Atividade { get; set; }
 
     }
 }

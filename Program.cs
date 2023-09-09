@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Trainify.Me_Api.Infra.Data.Repositories;
 using Trainify.Me_Api.Services;
+using Trainify.Me_Api.Domain.Entities;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,7 +28,7 @@ builder.Services.AddDbContext<TrainifyMeDbContext>(options =>
 builder.Services.AddScoped<IService, Service>();
 builder.Services.AddScoped<IRepository, Repository>();
 
-builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
+builder.Services.AddIdentity<User, IdentityRole>(options =>
 {
     options.User.RequireUniqueEmail = true;
     options.Password.RequireNonAlphanumeric = false;
@@ -91,16 +92,17 @@ async Task CreateRoles(IServiceProvider serviceProvider)
 async Task CreateDefaultAdminUser(IServiceProvider serviceProvider)
 {
 
-    var userManager = serviceProvider.GetRequiredService<UserManager<IdentityUser>>();
+    var userManager = serviceProvider.GetRequiredService<UserManager<User>>();
     var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
     var configuration = serviceProvider.GetRequiredService<IConfiguration>();
     var logger = serviceProvider.GetRequiredService<ILogger<Program>>();
 
-    var adminUser = new IdentityUser()
+    var adminUser = new User()
     {
         Email = "lucascambraia@unipam.edu.br",
         UserName = "DefaultAdmin",
         EmailConfirmed = true,
+        IsActive = true,
     };
 
     var existUser = await userManager.FindByEmailAsync(adminUser.Email);
