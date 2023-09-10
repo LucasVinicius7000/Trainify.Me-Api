@@ -10,5 +10,6 @@ namespace Trainify.Me_Api.Services
         RoleManager<IdentityRole> RoleManager { get; }
         SignInManager<User> SignInManager { get; }
         UserServices UserServices { get; }
+        AuthServices AuthServices { get; }
     }
 }

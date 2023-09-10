@@ -4,6 +4,9 @@ using Microsoft.AspNetCore.Identity;
 using Trainify.Me_Api.Infra.Data.Repositories;
 using Trainify.Me_Api.Services;
 using Trainify.Me_Api.Domain.Entities;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +17,7 @@ var configuration = new ConfigurationBuilder()
 
 
 builder.Services.AddControllers();
+
 builder.Services.AddControllers().AddNewtonsoftJson(
    options =>
    {
@@ -26,6 +30,7 @@ builder.Services.AddDbContext<TrainifyMeDbContext>(options =>
 );
 
 builder.Services.AddScoped<IService, Service>();
+
 builder.Services.AddScoped<IRepository, Repository>();
 
 builder.Services.AddIdentity<User, IdentityRole>(options =>
@@ -37,8 +42,26 @@ builder.Services.AddIdentity<User, IdentityRole>(options =>
 .AddDefaultTokenProviders();
 
 builder.Services.AddEndpointsApiExplorer();
+
 builder.Services.AddSwaggerGen();
 
+var key = Encoding.ASCII.GetBytes(builder.Configuration["Secrets:TokenSecret"]);
+builder.Services.AddAuthentication(x =>
+{
+    x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+    .AddJwtBearer(x => {
+        x.RequireHttpsMetadata = false;
+        x.SaveToken = true;
+        x.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(key),
+            ValidateIssuer = false,
+            ValidateAudience = false,
+        };
+    });
 
 var app = builder.Build();
 
@@ -58,6 +81,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseAuthentication();
 
 app.UseAuthorization();
 

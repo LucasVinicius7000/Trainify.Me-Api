@@ -10,13 +10,6 @@ namespace Trainify.Me_Api.Application.Controllers
     {
         public UserController(IServiceProvider serviceProvider) : base(serviceProvider) { }
 
-
-        //[HttpGet]
-        //public ApiResponse<string> Login()
-        //{
-        //    return ApiResponse<string>.SuccessResponse("UserController", "No data");   
-        //}
-
         [HttpPost]
         //[Authorize(Roles = "Admin, Organizacao")]
         public async Task<ActionResult<ApiResponse<string>>> CriarUsuario(CriarUsuarioRequest criarUsuarioRequest) 
