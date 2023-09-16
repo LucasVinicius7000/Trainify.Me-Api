@@ -85,7 +85,8 @@ namespace Trainify.Me_Api.Infra.Data.Context
             builder.Entity<Organizacao>()
                 .HasOne(o => o.User)
                 .WithOne()
-                .HasForeignKey<Organizacao>(o => o.UserId);
+                .HasForeignKey<Organizacao>(o => o.UserId)
+                .OnDelete(DeleteBehavior.NoAction); ;
 
             #endregion
 
@@ -96,7 +97,23 @@ namespace Trainify.Me_Api.Infra.Data.Context
                 .WithOne(a => a.Treinador)
                 .HasForeignKey(a => a.TreinadorId);
 
+            builder.Entity<Treinador>()
+                .HasOne(t => t.User)
+                .WithOne()
+                .HasForeignKey<Treinador>(t => t.UserId)
+                .OnDelete(DeleteBehavior.NoAction);
+
             #endregion
+
+            #region Aluno
+
+            builder.Entity<Aluno>()
+                .HasOne(a => a.User)
+                .WithOne()
+                .HasForeignKey<Aluno>(a => a.UserId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            #endregion 
 
             #region Curso
 

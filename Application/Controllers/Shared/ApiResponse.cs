@@ -5,7 +5,7 @@
         public T? Data { get; set; }
         public bool IsSuccess { get; set; }
         public string ClientMessage { get; set; } = string.Empty;
-        public List<dynamic> Errors { get; set; } = new List<dynamic>();
+        public dynamic[] Errors { get; set; }
 
         private ApiResponse() { }
 
@@ -19,7 +19,7 @@
             };
         }
 
-        public static ApiResponse<T> FailureResponse(string ClientMessage, List<dynamic> Errors)
+        public static ApiResponse<T> FailureResponse(string ClientMessage, dynamic[]? Errors = null)
         {
             return new ApiResponse<T>
             {

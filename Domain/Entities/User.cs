@@ -5,6 +5,6 @@ namespace Trainify.Me_Api.Domain.Entities
     {
         public bool IsActive { get; set; }
         public string RefreshToken { get; set; }
-        public string Expires { get; set; }
+        public DateTime? ExpiresAt { get; set; }
     }
 }

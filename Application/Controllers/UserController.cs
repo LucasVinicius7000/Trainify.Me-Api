@@ -20,8 +20,7 @@ namespace Trainify.Me_Api.Application.Controllers
                 {
                     if (criarUsuarioRequest.Role == "Organizacao" || criarUsuarioRequest.Role == "Admin")
                     {
-                        Erros.Add("Usuário com Role de Organização não pode criar outros usuários com a mesma role ou com Role de Administrador.");
-                        var response = ApiResponse<User>.FailureResponse("Você não possui autorização para criar esse tipo de usuário.", Erros);
+                        var response = ApiResponse<User>.FailureResponse("Você não possui autorização para criar esse tipo de usuário.", new[] { "Usuário com Role de Organização não pode criar outros usuários com a mesma role ou com Role de Administrador." });
                         return StatusCode(403, response);
                     }
                 }
@@ -29,7 +28,7 @@ namespace Trainify.Me_Api.Application.Controllers
             }
             catch (Exception ex)
             {
-                var response = ApiResponse<User>.FailureResponse(ex.Message, Erros);
+                var response = ApiResponse<User>.FailureResponse(ex.Message);
                 return StatusCode(500, response);
             }
             return StatusCode(200, ApiResponse<User>.SuccessResponse(new User(), "0"));

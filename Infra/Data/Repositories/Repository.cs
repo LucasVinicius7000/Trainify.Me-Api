@@ -17,6 +17,23 @@ namespace Trainify.Me_Api.Infra.Data.Repositories
         //    get { return _user ?? new UserRepository(_context); }
         //}
 
+        private readonly AlunoRepository _aluno;
+        public AlunoRepository Aluno
+        {
+            get { return _aluno ?? new AlunoRepository(_context); }
+        }
+
+        private readonly OrganizacaoRepository _organizacao;
+        public OrganizacaoRepository Organizacao
+        {
+            get { return _organizacao ?? new OrganizacaoRepository(_context); }
+        }
+
+        private readonly TreinadorRepository _treinador;
+        public TreinadorRepository Treinador
+        {
+            get { return _treinador ?? new TreinadorRepository(_context); }
+        }
 
 
 

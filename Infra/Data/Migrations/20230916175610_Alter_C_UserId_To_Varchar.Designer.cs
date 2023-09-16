@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Trainify.Me_Api.Infra.Data.Context;
 
@@ -11,9 +12,10 @@ using Trainify.Me_Api.Infra.Data.Context;
 namespace Trainify.Me_Api.Infra.Data.Migrations
 {
     [DbContext(typeof(TrainifyMeDbContext))]
-    partial class TrainifyMeDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230916175610_Alter_C_UserId_To_Varchar")]
+    partial class Alter_C_UserId_To_Varchar
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -206,16 +208,13 @@ namespace Trainify.Me_Api.Infra.Data.Migrations
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("OrganizacaoId");
 
                     b.HasIndex("TreinadorId");
-
-                    b.HasIndex("UserId")
-                        .IsUnique();
 
                     b.ToTable("Alunos");
                 });
@@ -366,14 +365,11 @@ namespace Trainify.Me_Api.Infra.Data.Migrations
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("OrganizacaoId");
-
-                    b.HasIndex("UserId")
-                        .IsUnique();
 
                     b.ToTable("Treinadores");
                 });
@@ -529,17 +525,9 @@ namespace Trainify.Me_Api.Infra.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Trainify.Me_Api.Domain.Entities.User", "User")
-                        .WithOne()
-                        .HasForeignKey("Trainify.Me_Api.Domain.Entities.Aluno", "UserId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
                     b.Navigation("Organizacao");
 
                     b.Navigation("Treinador");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Trainify.Me_Api.Domain.Entities.Atividade", b =>
@@ -588,7 +576,7 @@ namespace Trainify.Me_Api.Infra.Data.Migrations
                     b.HasOne("Trainify.Me_Api.Domain.Entities.User", "User")
                         .WithOne()
                         .HasForeignKey("Trainify.Me_Api.Domain.Entities.Organizacao", "UserId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("User");
@@ -602,15 +590,7 @@ namespace Trainify.Me_Api.Infra.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Trainify.Me_Api.Domain.Entities.User", "User")
-                        .WithOne()
-                        .HasForeignKey("Trainify.Me_Api.Domain.Entities.Treinador", "UserId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
                     b.Navigation("Organizacao");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Trainify.Me_Api.Domain.Entities.Atividade", b =>

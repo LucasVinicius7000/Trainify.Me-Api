@@ -5,5 +5,9 @@
         Task BeginTransaction();
         Task RollBackTransaction();
         Task CommitTransaction();
+        AlunoRepository Aluno { get; }
+        OrganizacaoRepository Organizacao { get; }
+        TreinadorRepository Treinador { get; }
+
     }
 }
