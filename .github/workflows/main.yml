@@ -1,0 +1,22 @@
+name: Sync to Azure DevOps
+
+on:
+  push:
+    branches:
+      - '*'
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Push to Azure DevOps
+      run: |
+        git config --global user.email "lucasvinicius7000@gmail.com"
+        git config --global user.name "LucasVinicius7000"
+        git remote add azuredevops https://lucasvinicius7000:${{ vars.AZUREPAT }}@dev.azure.com/lucasvinicius7000/Trainify.Me/_git/Trainify.Me-Api
+        git fetch --unshallow origin
+        git push azuredevops --all
