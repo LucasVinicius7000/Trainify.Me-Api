@@ -32,6 +32,7 @@ namespace Trainify.Me_Api.Application.Controllers
                     HttpContext.Response.Cookies.Append("RefreshToken", tokenData.RefreshToken);
 
                     var perfil = await Services.PerfilService.GetPerfilByUserId(usuario.Id);
+                    var role = await UserManager.GetRolesAsync(usuario);
 
                     var usuarioLogado = new UsuarioLogadoDTO()
                     {
@@ -41,7 +42,8 @@ namespace Trainify.Me_Api.Application.Controllers
                         IsActive = usuario.IsActive,
                         Token = tokenData.Token,
                         RefreshToken = tokenData.RefreshToken,
-                        RefreshTokenExpiration = tokenData.ExpirationRefreshToken     
+                        RefreshTokenExpiration = tokenData.ExpirationRefreshToken,
+                        Role = role.First(),
                     };
 
                     var response = ApiResponse<UsuarioLogadoDTO>.SuccessResponse(usuarioLogado, "Usuário autenticado com sucesso.");

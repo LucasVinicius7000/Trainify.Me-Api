@@ -8,6 +8,7 @@ namespace Trainify.Me_Api.Domain.Entities
         public int Id { get; set; }
         public int CursoId { get; set; }
         public int? AtividadeId { get; set; }  
+        public int Indice { get; set; }
         public string Titulo { get; set; }
         public TipoAula TipoAula { get;set;}
         public string? VideoUrl { get; set; }

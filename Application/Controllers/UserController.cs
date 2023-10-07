@@ -11,7 +11,7 @@ namespace Trainify.Me_Api.Application.Controllers
         public UserController(IServiceProvider serviceProvider) : base(serviceProvider) { }
 
         [HttpPost]
-        //[Authorize(Roles = "Admin, Organizacao")]
+        [Authorize(Roles = "Admin, Organizacao")]
         public async Task<ActionResult<ApiResponse<string>>> CriarUsuario(CriarUsuarioRequest criarUsuarioRequest) 
         {
             try

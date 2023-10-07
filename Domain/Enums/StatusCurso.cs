@@ -2,7 +2,8 @@
 {
     public enum StatusCurso
     {
-        Ativo = 0,
-        Inativo = 1,
+        EmDesenvolvimento = 0,
+        Ativo = 1,
+        Inativo = 2,
     }
 }

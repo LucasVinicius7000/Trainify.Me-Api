@@ -5,6 +5,7 @@
         public string Email { get; set; }
         public string UserName { get; set; } = string.Empty;
         public dynamic Perfil { get; set; } 
+        public string Role { get; set; }
         public bool IsActive { get; set; }
         public string Token { get; set; }
         public string RefreshToken { get; set; }

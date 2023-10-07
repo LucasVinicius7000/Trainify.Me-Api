@@ -35,7 +35,7 @@ namespace Trainify.Me_Api.Services
 
                 if (perfil is null)
                     throw new Exception("Não foi possível recuperar o perfil do usuário.");
-                
+
                 return perfil;
 
             }
