@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Trainify.Me_Api.Domain.Entities;
 using Trainify.Me_Api.Services;
+using Trainify.Me_Api.Infra.Services.BlobStorage;
 
 namespace Trainify.Me_Api.Application.Controllers.Shared
 {
@@ -14,7 +15,7 @@ namespace Trainify.Me_Api.Application.Controllers.Shared
         protected SignInManager<User> SignInManager { get; }
         protected IService Services { get; }
         protected Logger<T> Logger { get; }
-        //protected IBlobStorageService BlobStorage { get; }
+        protected IBlobStorageService BlobStorage { get; }
 
 
         public BaseController(IServiceProvider serviceProvider)
@@ -23,7 +24,7 @@ namespace Trainify.Me_Api.Application.Controllers.Shared
             UserManager = serviceProvider.GetService<UserManager<User>>();
             SignInManager = serviceProvider.GetService<SignInManager<User>>();
             Services = serviceProvider.GetService<IService>();
-            //BlobStorage = serviceProvider.GetService<IBlobStorageService>();
+            BlobStorage = serviceProvider.GetService<IBlobStorageService>();
             Logger = serviceProvider.GetService<Logger<T>>();
         }
 

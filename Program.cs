@@ -2,6 +2,7 @@ using Trainify.Me_Api.Infra.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Trainify.Me_Api.Infra.Data.Repositories;
+using Trainify.Me_Api.Infra.Services.BlobStorage;
 using Trainify.Me_Api.Services;
 using Trainify.Me_Api.Domain.Entities;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -33,6 +34,8 @@ builder.Services.AddScoped<IService, Service>();
 
 builder.Services.AddScoped<IRepository, Repository>();
 
+builder.Services.AddScoped<IBlobStorageService, BlobStorageService>();
+
 builder.Services.AddIdentity<User, IdentityRole>(options =>
 {
     options.User.RequireUniqueEmail = true;
@@ -44,6 +47,17 @@ builder.Services.AddIdentity<User, IdentityRole>(options =>
 builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("CorsPolicy",
+        builder =>
+        {
+            builder.AllowAnyOrigin();
+            builder.AllowAnyHeader();
+            builder.AllowAnyMethod();
+        });
+});
 
 var key = Encoding.ASCII.GetBytes(builder.Configuration["Secrets:TokenSecret"]);
 builder.Services.AddAuthentication(x =>
@@ -65,6 +79,7 @@ builder.Services.AddAuthentication(x =>
 
 var app = builder.Build();
 
+
 using (var serviceScope = app.Services.CreateScope())
 {
     var creatingRoles = CreateRoles(serviceScope.ServiceProvider);
@@ -79,6 +94,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseCors("CorsPolicy");
 
 app.UseHttpsRedirection();
 
