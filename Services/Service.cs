@@ -16,10 +16,9 @@ namespace Trainify.Me_Api.Services
         public UserManager<User> UserManager => _userManager;
         public RoleManager<IdentityRole> RoleManager => _roleManager;
         public SignInManager<User> SignInManager => _signInManager;
-        //public UserServices UserServices { get; private set; }
-        //public AuthServices AuthServices { get; private set; }
         public TokenService TokenService { get; private set; }
         public PerfilService PerfilService { get; private set; }
+        public CursoService CursoService { get; private set; }
 
         public Service
         (
@@ -35,9 +34,8 @@ namespace Trainify.Me_Api.Services
             this._roleManager = roleManager;
             this._signInManager = signInManager;
             this.TokenService = TokenService ?? new TokenService(this, configuration);
-            //this.UserServices = UserServices ?? new UserServices(this, repositories);
-            //this.AuthServices = AuthServices ?? new AuthServices(this, repositories);
             this.PerfilService = PerfilService ?? new PerfilService(this, repositories);
+            this.CursoService = CursoService ?? new CursoService(this, repositories);
         }
     }
 }

@@ -18,6 +18,7 @@ namespace Trainify.Me_Api.Infra.Data.Repositories
         {
             var cursoCriado = _context.Set<Curso>()
                 .Add(curso);
+            await _context.SaveChangesAsync();
             return cursoCriado.Entity;
         }
 
@@ -39,6 +40,7 @@ namespace Trainify.Me_Api.Infra.Data.Repositories
             var cursoInativado = _context.Set<Curso>()
                 .Update(curso);
 
+            await _context.SaveChangesAsync();
             return cursoInativado.Entity;
 
         }
@@ -47,7 +49,7 @@ namespace Trainify.Me_Api.Infra.Data.Repositories
         {
             var cursoAtualizado = _context.Set<Curso>()
                 .Update(curso);
-
+            await _context.SaveChangesAsync();
             return cursoAtualizado.Entity;
         }
 
@@ -68,6 +70,7 @@ namespace Trainify.Me_Api.Infra.Data.Repositories
         {
             var cursoCriado = _context.Set<CursoEmAndamento>()
                 .Add(curso);
+            await _context.SaveChangesAsync();
             return cursoCriado.Entity;
         }
         
@@ -104,6 +107,7 @@ namespace Trainify.Me_Api.Infra.Data.Repositories
             var cursoAtualizado = _context.Set<CursoEmAndamento>()
                 .Update(curso);
 
+            await _context.SaveChangesAsync();
             return cursoAtualizado.Entity;
         }
 
@@ -128,7 +132,7 @@ namespace Trainify.Me_Api.Infra.Data.Repositories
             var cursoEmAndamento = _context.Set<CursoEmAndamento>()
                 .Update(curso);
 
-
+            await _context.SaveChangesAsync();
             return cursoEmAndamento.Entity;
 
         }

@@ -35,6 +35,12 @@ namespace Trainify.Me_Api.Infra.Data.Repositories
             get { return _treinador ?? new TreinadorRepository(_context); }
         }
 
+        private readonly CursoRepository _curso;
+        public CursoRepository Curso
+        {
+            get { return _curso ?? new CursoRepository(_context); }
+        }
+
 
 
 

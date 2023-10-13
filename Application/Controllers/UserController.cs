@@ -10,7 +10,7 @@ namespace Trainify.Me_Api.Application.Controllers
     {
         public UserController(IServiceProvider serviceProvider) : base(serviceProvider) { }
 
-        [HttpPost]
+        [HttpPost("criar")]
         [Authorize(Roles = "Admin, Organizacao")]
         public async Task<ActionResult<ApiResponse<string>>> CriarUsuario(CriarUsuarioRequest criarUsuarioRequest) 
         {
@@ -24,14 +24,18 @@ namespace Trainify.Me_Api.Application.Controllers
                         return StatusCode(403, response);
                     }
                 }
-                     
+
+                var usuarioCriado = await Services.PerfilService.CriarPerfilUsuario(criarUsuarioRequest);
+                if (usuarioCriado is null) throw new Exception("Houve um erro ao criar usuário.");
+                var responseSuccess = ApiResponse<dynamic>.SuccessResponse(usuarioCriado, "Usuário criado com sucesso.");
+                return StatusCode(200, responseSuccess);
+
             }
             catch (Exception ex)
             {
                 var response = ApiResponse<User>.FailureResponse(ex.Message);
                 return StatusCode(500, response);
             }
-            return StatusCode(200, ApiResponse<User>.SuccessResponse(new User(), "0"));
         }
 
     }
