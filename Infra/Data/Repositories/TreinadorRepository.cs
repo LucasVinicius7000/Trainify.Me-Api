@@ -12,6 +12,13 @@ namespace Trainify.Me_Api.Infra.Data.Repositories
             _context = context;
         }
 
+        public async Task<Treinador> CriarTreinador(Treinador treinador)
+        {
+            var treinadorCriado = await _context.Set<Treinador>().AddAsync(treinador);
+            await _context.SaveChangesAsync();
+            return treinadorCriado.Entity;
+        }
+
         public async Task<Treinador> BuscarTreinadorPorUserId(string userId)
         {
             return await _context.Treinadores.FirstAsync(a => a.UserId == userId);

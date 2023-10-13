@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Trainify.Me_Api.Infra.Data.Context;
 
@@ -11,9 +12,10 @@ using Trainify.Me_Api.Infra.Data.Context;
 namespace Trainify.Me_Api.Infra.Data.Migrations
 {
     [DbContext(typeof(TrainifyMeDbContext))]
-    partial class TrainifyMeDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231013011233_Alter_T_User_RefreshToken_As_Nullable")]
+    partial class Alter_T_User_RefreshToken_As_Nullable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -324,6 +326,7 @@ namespace Trainify.Me_Api.Infra.Data.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("CNPJ")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("NomeFantasia")
@@ -331,6 +334,7 @@ namespace Trainify.Me_Api.Infra.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("RazaoSocial")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserId")

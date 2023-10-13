@@ -12,6 +12,13 @@ namespace Trainify.Me_Api.Infra.Data.Repositories
             _context = context;
         }
 
+        public async Task<Aluno> CriarAluno(Aluno aluno)
+        {
+            var alunoCriado = await _context.Set<Aluno>().AddAsync(aluno);
+            await _context.SaveChangesAsync();
+            return alunoCriado.Entity;
+        }
+
         public async Task<Aluno> BuscarAlunoPorUserId(string userId)
         {
             return await _context.Alunos.FirstAsync(a => a.UserId == userId);

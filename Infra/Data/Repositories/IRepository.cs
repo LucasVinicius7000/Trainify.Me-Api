@@ -8,6 +8,7 @@
         AlunoRepository Aluno { get; }
         OrganizacaoRepository Organizacao { get; }
         TreinadorRepository Treinador { get; }
+        CursoRepository Curso { get; }
 
     }
 }
