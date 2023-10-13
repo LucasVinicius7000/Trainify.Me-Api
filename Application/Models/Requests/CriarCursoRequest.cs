@@ -15,6 +15,7 @@ namespace Trainify.Me_Api.Application.Models.Requests
                 Nome = Nome,
                 OrganizacaoId = OrganizacaoId,
                 UsuarioCriadorId = UsuarioCriadorId,
+                Status = Domain.Enums.StatusCurso.EmDesenvolvimento,
             };
         }
     }
