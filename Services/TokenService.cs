@@ -45,24 +45,8 @@ namespace Trainify.Me_Api.Services
             rng.GetBytes(randomNumber);
             return Convert.ToBase64String(randomNumber);
         }
-        private bool IsRefreshTokenExpired(string oldRefreshToken)
-        {
-            try
-            {
-                var usuario = _services.UserManager.Users.First(u => u.RefreshToken == oldRefreshToken);
-
-                if(usuario is null) throw new Exception("Falha ao verificar refresh token. Usuário não encontrado.");
-                if(usuario.ExpiresAt is null) throw new Exception("Falha ao verificar refresh token. Data de expiração inválida."); 
-                
-                var isExpired = usuario.ExpiresAt < DateTime.UtcNow;
-                return isExpired;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-        }
-        private async Task SaveRefreshToken(string refreshToken, string userId, DateTime? expiresAt = null)
+       
+        private async Task SaveRefreshToken(string refreshToken, string userId)
         {
             try
             {
@@ -78,7 +62,6 @@ namespace Trainify.Me_Api.Services
 
                 var usuario = _services.UserManager.Users.First(u => u.Id == userId);
                 usuario.RefreshToken = refreshToken;
-                usuario.ExpiresAt = expiresAt ?? usuario.ExpiresAt;
                 var usuarioAtualizado = await _services.UserManager.UpdateAsync(usuario);
 
                 if (!usuarioAtualizado.Succeeded)
@@ -114,14 +97,12 @@ namespace Trainify.Me_Api.Services
 
                 var token = GenerateToken(claims, DateTime.UtcNow.AddHours(3));
                 var refreshToken = GenerateRefreshToken();
-                var expirationRefreshToken = DateTime.UtcNow.AddDays(15);
-                await SaveRefreshToken(refreshToken, usuario.Id, expirationRefreshToken);
+                await SaveRefreshToken(refreshToken, usuario.Id);
 
                 return new TokenDataDTO()
                 {
                     Token = token,
-                    RefreshToken = refreshToken,
-                    ExpirationRefreshToken = expirationRefreshToken,
+                    RefreshToken = refreshToken
                 };
             }
             catch (Exception ex)
@@ -136,10 +117,6 @@ namespace Trainify.Me_Api.Services
                 var usuario = _services.UserManager.Users.First(u => u.RefreshToken == oldRefreshToken);
 
                 if (usuario is null) throw new Exception("Falha ao obter novo token. Usuário não encontrado.");
-                if (IsRefreshTokenExpired(usuario.RefreshToken))
-                {
-                    throw new Exception("Refresh token expirado. Insira suas credenciais novamente para se autenticar.");
-                }
 
                 var roles = await _services.UserManager.GetRolesAsync(usuario);
                 var tokenClaims = new[]
@@ -157,8 +134,7 @@ namespace Trainify.Me_Api.Services
                 return new TokenDataDTO()
                 {
                     Token = newToken,
-                    RefreshToken = newRefreshToken,
-                    ExpirationRefreshToken = usuario.ExpiresAt 
+                    RefreshToken = newRefreshToken
                 };
             }
             catch (Exception ex)

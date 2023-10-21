@@ -120,12 +120,14 @@ namespace Trainify.Me_Api.Infra.Data.Context
             builder.Entity<Curso>()
                 .HasOne(c => c.OrganizacaoPertencente)
                 .WithMany(o => o.Cursos)
-                .HasForeignKey(c => c.OrganizacaoId);
+                .HasForeignKey(c => c.OrganizacaoId)
+                .OnDelete(DeleteBehavior.Cascade);
 
             builder.Entity<Curso>()
                 .HasMany(c => c.Aulas)
                 .WithOne(a => a.Curso)
-                .HasForeignKey(a => a.CursoId);
+                .HasForeignKey(a => a.CursoId)
+                .OnDelete(DeleteBehavior.NoAction);
 
             #endregion
 
@@ -136,6 +138,12 @@ namespace Trainify.Me_Api.Infra.Data.Context
                 .WithOne(at => at.AulaPertencente)
                 .HasForeignKey<Atividade>(at => at.AulaId);
 
+            builder.Entity<Aula>()
+                .HasOne(a => a.Curso)
+                .WithMany(c => c.Aulas)
+                .HasForeignKey(a => a.CursoId)
+                .OnDelete(DeleteBehavior.Cascade);
+
             #endregion
 
             #region Atividade
@@ -143,13 +151,21 @@ namespace Trainify.Me_Api.Infra.Data.Context
             builder.Entity<Atividade>()
                 .HasMany(a => a.Alternativas)
                 .WithOne(alt => alt.Atividade)
-                .HasForeignKey(alt => alt.AtividadeId);
+                .HasForeignKey(alt => alt.AtividadeId)
+                .OnDelete(DeleteBehavior.Cascade);
 
             builder.Entity<Atividade>()
                 .HasOne(a => a.AlternativaCorreta)
                 .WithOne()
                 .HasForeignKey<Atividade>(a => a.AlternativaCorretaId)
                 .OnDelete(DeleteBehavior.NoAction);
+
+            builder.Entity<Atividade>()
+                .HasOne(a => a.AulaPertencente)
+                .WithOne(al => al.Atividade)
+                .HasForeignKey<Atividade>(a => a.AulaId)
+                .OnDelete(DeleteBehavior.Cascade);
+
 
             #endregion
 

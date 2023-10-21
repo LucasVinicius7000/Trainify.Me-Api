@@ -19,9 +19,11 @@ namespace Trainify.Me_Api.Services
         public TokenService TokenService { get; private set; }
         public PerfilService PerfilService { get; private set; }
         public CursoService CursoService { get; private set; }
+        public AulaService AulaService { get; private set; }
 
         public Service
         (
+            IServiceProvider serviceProvider,
             IConfiguration configuration,
             UserManager<User> userManager,
             RoleManager<IdentityRole> roleManager,
@@ -36,6 +38,7 @@ namespace Trainify.Me_Api.Services
             this.TokenService = TokenService ?? new TokenService(this, configuration);
             this.PerfilService = PerfilService ?? new PerfilService(this, repositories);
             this.CursoService = CursoService ?? new CursoService(this, repositories);
+            this.AulaService = AulaService ?? new AulaService(this, repositories, serviceProvider);
         }
     }
 }

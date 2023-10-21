@@ -35,5 +35,22 @@ namespace Trainify.Me_Api.Services
                 throw new Exception(ex.Message);
             }
         }
+
+        public async Task<Curso> BuscarCursoPorId(int id)
+        {
+            try
+            {
+                if (id <= 0)
+                    throw new Exception("O id do curso é inválido.");
+                var curso = await _repositories.Curso.GetCursoById(id);
+                if (curso is null)
+                    throw new Exception("Falha ao buscar o curso.");
+                return curso;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }

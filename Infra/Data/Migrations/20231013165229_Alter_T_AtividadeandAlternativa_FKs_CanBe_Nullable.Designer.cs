@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Trainify.Me_Api.Infra.Data.Context;
 
@@ -11,9 +12,10 @@ using Trainify.Me_Api.Infra.Data.Context;
 namespace Trainify.Me_Api.Infra.Data.Migrations
 {
     [DbContext(typeof(TrainifyMeDbContext))]
-    partial class TrainifyMeDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231013165229_Alter_T_AtividadeandAlternativa_FKs_CanBe_Nullable")]
+    partial class Alter_T_AtividadeandAlternativa_FKs_CanBe_Nullable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -555,8 +557,7 @@ namespace Trainify.Me_Api.Infra.Data.Migrations
 
                     b.HasOne("Trainify.Me_Api.Domain.Entities.Aula", "AulaPertencente")
                         .WithOne("Atividade")
-                        .HasForeignKey("Trainify.Me_Api.Domain.Entities.Atividade", "AulaId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("Trainify.Me_Api.Domain.Entities.Atividade", "AulaId");
 
                     b.Navigation("AlternativaCorreta");
 

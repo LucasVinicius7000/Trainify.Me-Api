@@ -26,6 +26,9 @@ namespace Trainify.Me_Api.Infra.Data.Repositories
         {
             return await _context.Set<Curso>()
                 .Where(c => c.Id == id)
+                .Include(c => c.Aulas)
+                .Include(c => c.OrganizacaoPertencente)
+                //.Include(c => c.UsuarioCriador)
                 .FirstAsync();
         }
 
