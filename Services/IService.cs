@@ -14,5 +14,6 @@ namespace Trainify.Me_Api.Services
         TokenService TokenService { get; }
         PerfilService PerfilService { get; }
         CursoService CursoService { get; }
+        AulaService AulaService { get; }
     }
 }

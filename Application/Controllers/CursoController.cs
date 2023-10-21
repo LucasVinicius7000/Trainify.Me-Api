@@ -19,7 +19,7 @@ namespace Trainify.Me_Api.Application.Controllers
         //}
 
         [HttpPost("criar")]
-        [Authorize(Roles = "Admin, Organizacao")]
+        [Authorize(Roles = "Admin,Organizacao")]
         public async Task<ActionResult<ApiResponse<Curso>>> CriarCurso([FromBody] CriarCursoRequest cursoRequest)
         {
             try
@@ -30,6 +30,23 @@ namespace Trainify.Me_Api.Application.Controllers
             catch (Exception ex)
             {
                 var response = ApiResponse<Curso>.FailureResponse(ex.Message);
+                return StatusCode(500, response);
+            }
+        }
+
+        [HttpGet("buscar/{id}")]
+        [Authorize(Roles = "Admin, Organizacao, Treinador, Aluno")]
+        public async Task<ActionResult<ApiResponse<Aula>>> BuscarCurso([FromRoute] int id)
+        {
+            try
+            {
+                var curso = await Services.CursoService.BuscarCursoPorId(id);
+                var response = ApiResponse<Curso>.SuccessResponse(curso, "Curso encontrado.");
+                return StatusCode(200, response);
+            }
+            catch (Exception ex)
+            {
+                var response = ApiResponse<Aula>.FailureResponse(ex.Message);
                 return StatusCode(500, response);
             }
         }

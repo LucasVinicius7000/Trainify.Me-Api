@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Trainify.Me_Api.Infra.Data.Context;
 
@@ -11,9 +12,10 @@ using Trainify.Me_Api.Infra.Data.Context;
 namespace Trainify.Me_Api.Infra.Data.Migrations
 {
     [DbContext(typeof(TrainifyMeDbContext))]
-    partial class TrainifyMeDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231013202723_OnDeleteConfiguration_Aulas_Delete_Atividade_OnCascade")]
+    partial class OnDeleteConfiguration_Aulas_Delete_Atividade_OnCascade
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

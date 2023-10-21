@@ -5,8 +5,8 @@ namespace Trainify.Me_Api.Domain.Entities
     public class Atividade
     {
         public int Id { get; set; }
-        public int AulaId { get; set; }
-        public int AlternativaCorretaId { get; set; }
+        public int? AulaId { get; set; }
+        public int? AlternativaCorretaId { get; set; }
         public string Enunciado { get; set; }      
         
 

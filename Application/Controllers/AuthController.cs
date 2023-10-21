@@ -63,8 +63,8 @@ namespace Trainify.Me_Api.Application.Controllers
             }
         }
 
-        [HttpGet("refresh-token")]
-        public async Task<ActionResult<ApiResponse<TokenDataDTO>>> RefreshToken([FromQuery] string oldRefreshToken)
+        [HttpPost("refresh-token")]
+        public async Task<ActionResult<ApiResponse<TokenDataDTO>>> RefreshToken([FromBody] string oldRefreshToken)
         {
             try
             {
