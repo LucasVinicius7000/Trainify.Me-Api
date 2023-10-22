@@ -15,13 +15,30 @@ namespace Trainify.Me_Api.Infra.Data.Repositories
         public async Task<Aluno> CriarAluno(Aluno aluno)
         {
             var alunoCriado = await _context.Set<Aluno>().AddAsync(aluno);
-            await _context.SaveChangesAsync();
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
             return alunoCriado.Entity;
+        }
+
+        public async Task<Aluno> BuscarAlunoPorId(int id)
+        {
+            return await _context.Alunos.Where(a => a.Id == id).FirstAsync();
         }
 
         public async Task<Aluno> BuscarAlunoPorUserId(string userId)
         {
             return await _context.Alunos.FirstAsync(a => a.UserId == userId);
+        }
+
+        public async Task<List<Aluno>> BuscarAlunoPorOrganizacaoId(int organizacaoId)
+        {
+            return await _context.Alunos.Where(a => a.OrganizacaoId == organizacaoId).ToListAsync();
         }
 
     }

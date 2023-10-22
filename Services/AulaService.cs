@@ -121,8 +121,31 @@ namespace Trainify.Me_Api.Services
                 throw new Exception(ex.Message);
             }
         }
-    
-    
+
+        public async Task<Aula> RemoverAula(int aulaId)
+        {
+            try
+            {
+                await _repositories.BeginTransaction();
+                var aula = await _repositories.Aula.BuscarAulaPorId(aulaId);
+                if (aula is null)
+                    throw new Exception("Falha ao buscar aula.");
+                var curso = await _repositories.Curso.GetCursoById(aula.CursoId);
+                if (curso is null)
+                    throw new Exception("Falha ao buscar curso.");
+
+                var aulaRemovida = await _repositories.Aula.RemoverAulaEAtualizarIndices(aula);
+                if (aulaRemovida is null)
+                    throw new Exception("Não foi possível remover a aula atual.");
+                await _repositories.CommitTransaction();
+                return aulaRemovida;
+            }
+            catch (Exception ex)
+            {
+                await _repositories.RollBackTransaction();
+                throw new Exception(ex.Message);
+            }
+        }
  
     
     }

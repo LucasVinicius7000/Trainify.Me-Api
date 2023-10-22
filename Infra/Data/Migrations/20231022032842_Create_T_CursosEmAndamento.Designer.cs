@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Trainify.Me_Api.Infra.Data.Context;
 
@@ -11,9 +12,10 @@ using Trainify.Me_Api.Infra.Data.Context;
 namespace Trainify.Me_Api.Infra.Data.Migrations
 {
     [DbContext(typeof(TrainifyMeDbContext))]
-    partial class TrainifyMeDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231022032842_Create_T_CursosEmAndamento")]
+    partial class Create_T_CursosEmAndamento
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -329,7 +331,7 @@ namespace Trainify.Me_Api.Infra.Data.Migrations
                     b.Property<int>("AlunoId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("AulaAtualId")
+                    b.Property<int>("AulaAtualId")
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("ConcluidoEm")
@@ -345,12 +347,13 @@ namespace Trainify.Me_Api.Infra.Data.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("ProgressoAulaAtual")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("StatusCurso")
                         .HasColumnType("int");
 
-                    b.Property<int?>("UserIdMatriculador")
+                    b.Property<int>("UserIdMatriculador")
                         .HasColumnType("int");
 
                     b.HasKey("Id");

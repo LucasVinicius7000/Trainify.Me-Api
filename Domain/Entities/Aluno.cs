@@ -7,7 +7,7 @@ namespace Trainify.Me_Api.Domain.Entities
     {
         public int Id { get; set; }
         public string UserId { get; set; }
-        public int TreinadorId { get; set; }
+        public int? TreinadorId { get; set; } = null;
         public int OrganizacaoId { get; set; }
         public string Nome { get; set; }
         public DateTime DataNascimento { get; set; }
