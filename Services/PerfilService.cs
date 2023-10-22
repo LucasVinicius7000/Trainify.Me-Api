@@ -61,7 +61,7 @@ namespace Trainify.Me_Api.Services
                 var user = new User()
                 {
                     Email = criarUsuarioRequest.Email,
-                    UserName = criarUsuarioRequest.NomeDeUsuario,
+                    UserName = criarUsuarioRequest.NomeDeUsuario is null ? criarUsuarioRequest.Email : criarUsuarioRequest.NomeDeUsuario,
                     EmailConfirmed = false,
                     IsActive = true,
                 };
@@ -84,8 +84,10 @@ namespace Trainify.Me_Api.Services
                         UserId = createdUser.Id,
                         OrganizacaoId = criarUsuarioRequest.OrganizacaoPertencenteId,
                         TreinadorId = criarUsuarioRequest.TreinadorDoAlunoId,
+                        DataNascimento = (DateTime) criarUsuarioRequest.DataNascimento,
+                        Sexo = (Domain.Enums.Sexo) criarUsuarioRequest.Sexo,
                     };
-                    var alunoCriado = _repositories.Aluno.CriarAluno(aluno);
+                    var alunoCriado = await _repositories.Aluno.CriarAluno(aluno);
                     if (aluno is null) throw new Exception("Houve um erro ao criar perfil do usuário. Operação abortada.");
                     await _repositories.CommitTransaction();
                     return alunoCriado;
@@ -124,5 +126,22 @@ namespace Trainify.Me_Api.Services
             }
         }
     
+        public async Task<List<Aluno>> ListarAlunosPorOrganizacaoId(int id)
+        {
+            try
+            {
+                if (id <= 0)
+                    throw new Exception("Id da organização inválido, não foi possível listar alunos.");
+                var alunos = await _repositories.Aluno.BuscarAlunoPorOrganizacaoId(id);
+                if (alunos is null)
+                    throw new Exception("Falha ao listar alunos da organização.");
+                return alunos;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
     }
 }

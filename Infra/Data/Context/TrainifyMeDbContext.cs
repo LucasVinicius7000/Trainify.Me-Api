@@ -39,6 +39,11 @@ namespace Trainify.Me_Api.Infra.Data.Context
             get { return Set<Atividade>(); }
         }
 
+        public DbSet<CursoEmAndamento> CursosEmAndamento
+        {
+            get { return Set<CursoEmAndamento>(); }
+        }
+
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -95,7 +100,8 @@ namespace Trainify.Me_Api.Infra.Data.Context
             builder.Entity<Treinador>()
                 .HasMany(t => t.Alunos)
                 .WithOne(a => a.Treinador)
-                .HasForeignKey(a => a.TreinadorId);
+                .HasForeignKey(a => a.TreinadorId)
+                .IsRequired(false);
 
             builder.Entity<Treinador>()
                 .HasOne(t => t.User)

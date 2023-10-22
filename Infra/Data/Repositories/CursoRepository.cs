@@ -32,6 +32,22 @@ namespace Trainify.Me_Api.Infra.Data.Repositories
                 .FirstAsync();
         }
 
+        public async Task<Curso> AtivarCurso(int cursoId)
+        {
+            var curso = await _context.Set<Curso>()
+                .Where(c => c.Id == cursoId)
+                .FirstAsync();
+
+            curso.Status = Domain.Enums.StatusCurso.Ativo;
+
+            var cursoAtivado = _context.Set<Curso>()
+                .Update(curso);
+
+            await _context.SaveChangesAsync();
+            return cursoAtivado.Entity;
+
+        }
+
         public async Task<Curso> InativarCurso(int cursoId)
         {
             var curso = await _context.Set<Curso>()
@@ -60,6 +76,7 @@ namespace Trainify.Me_Api.Infra.Data.Repositories
         {
             return await _context.Set<Curso>()
                 .Where(c => c.OrganizacaoId == organizacaoId)
+                .Include(c => c.Aulas)
                 .ToListAsync();
         }
 
@@ -71,10 +88,18 @@ namespace Trainify.Me_Api.Infra.Data.Repositories
 
         public async Task<CursoEmAndamento> CriarCursoEmAndamento(CursoEmAndamento curso)
         {
-            var cursoCriado = _context.Set<CursoEmAndamento>()
+            try
+            {
+                var cursoCriado = _context.Set<CursoEmAndamento>()
                 .Add(curso);
-            await _context.SaveChangesAsync();
-            return cursoCriado.Entity;
+                await _context.SaveChangesAsync();
+                return cursoCriado.Entity;
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception(ex.Message);
+            }
         }
         
         public async Task<List<CursoEmAndamento>> ListaCursosEmAndamento(int alunoId)

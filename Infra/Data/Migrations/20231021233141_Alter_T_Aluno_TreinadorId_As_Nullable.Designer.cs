@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Trainify.Me_Api.Infra.Data.Context;
 
@@ -11,9 +12,10 @@ using Trainify.Me_Api.Infra.Data.Context;
 namespace Trainify.Me_Api.Infra.Data.Migrations
 {
     [DbContext(typeof(TrainifyMeDbContext))]
-    partial class TrainifyMeDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231021233141_Alter_T_Aluno_TreinadorId_As_Nullable")]
+    partial class Alter_T_Aluno_TreinadorId_As_Nullable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -316,46 +318,6 @@ namespace Trainify.Me_Api.Infra.Data.Migrations
                     b.HasIndex("OrganizacaoId");
 
                     b.ToTable("Cursos");
-                });
-
-            modelBuilder.Entity("Trainify.Me_Api.Domain.Entities.CursoEmAndamento", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int>("AlunoId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("AulaAtualId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("ConcluidoEm")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("CursoBaseId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("IniciadoEm")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("MatriculadoEm")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("ProgressoAulaAtual")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("StatusCurso")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("UserIdMatriculador")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("CursosEmAndamento");
                 });
 
             modelBuilder.Entity("Trainify.Me_Api.Domain.Entities.Organizacao", b =>
