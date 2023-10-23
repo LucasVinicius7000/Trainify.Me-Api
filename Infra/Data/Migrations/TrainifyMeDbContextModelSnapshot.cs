@@ -175,7 +175,7 @@ namespace Trainify.Me_Api.Infra.Data.Migrations
 
                     b.HasIndex("AtividadeId");
 
-                    b.ToTable("Alternativa");
+                    b.ToTable("Alternativa", (string)null);
                 });
 
             modelBuilder.Entity("Trainify.Me_Api.Domain.Entities.Aluno", b =>
@@ -218,7 +218,7 @@ namespace Trainify.Me_Api.Infra.Data.Migrations
                     b.HasIndex("UserId")
                         .IsUnique();
 
-                    b.ToTable("Alunos");
+                    b.ToTable("Alunos", (string)null);
                 });
 
             modelBuilder.Entity("Trainify.Me_Api.Domain.Entities.Atividade", b =>
@@ -249,7 +249,7 @@ namespace Trainify.Me_Api.Infra.Data.Migrations
                         .IsUnique()
                         .HasFilter("[AulaId] IS NOT NULL");
 
-                    b.ToTable("Atividades");
+                    b.ToTable("Atividades", (string)null);
                 });
 
             modelBuilder.Entity("Trainify.Me_Api.Domain.Entities.Aula", b =>
@@ -286,7 +286,7 @@ namespace Trainify.Me_Api.Infra.Data.Migrations
 
                     b.HasIndex("CursoId");
 
-                    b.ToTable("Aulas");
+                    b.ToTable("Aulas", (string)null);
                 });
 
             modelBuilder.Entity("Trainify.Me_Api.Domain.Entities.Curso", b =>
@@ -315,7 +315,7 @@ namespace Trainify.Me_Api.Infra.Data.Migrations
 
                     b.HasIndex("OrganizacaoId");
 
-                    b.ToTable("Cursos");
+                    b.ToTable("Cursos", (string)null);
                 });
 
             modelBuilder.Entity("Trainify.Me_Api.Domain.Entities.CursoEmAndamento", b =>
@@ -355,7 +355,7 @@ namespace Trainify.Me_Api.Infra.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("CursosEmAndamento");
+                    b.ToTable("CursosEmAndamento", (string)null);
                 });
 
             modelBuilder.Entity("Trainify.Me_Api.Domain.Entities.Organizacao", b =>
@@ -385,7 +385,7 @@ namespace Trainify.Me_Api.Infra.Data.Migrations
                     b.HasIndex("UserId")
                         .IsUnique();
 
-                    b.ToTable("Organizacoes");
+                    b.ToTable("Organizacoes", (string)null);
                 });
 
             modelBuilder.Entity("Trainify.Me_Api.Domain.Entities.Treinador", b =>
@@ -420,7 +420,7 @@ namespace Trainify.Me_Api.Infra.Data.Migrations
                     b.HasIndex("UserId")
                         .IsUnique();
 
-                    b.ToTable("Treinadores");
+                    b.ToTable("Treinadores", (string)null);
                 });
 
             modelBuilder.Entity("Trainify.Me_Api.Domain.Entities.User", b =>

@@ -24,12 +24,19 @@ namespace Trainify.Me_Api.Infra.Data.Repositories
 
         public async Task<Curso> GetCursoById(int id)
         {
-            return await _context.Set<Curso>()
+            try
+            {
+                 return await _context.Set<Curso>()
                 .Where(c => c.Id == id)
                 .Include(c => c.Aulas)
                 .Include(c => c.OrganizacaoPertencente)
                 //.Include(c => c.UsuarioCriador)
                 .FirstAsync();
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
         }
 
         public async Task<Curso> AtivarCurso(int cursoId)
@@ -113,14 +120,17 @@ namespace Trainify.Me_Api.Infra.Data.Repositories
         {
             return await _context.Set<CursoEmAndamento>()
                 .Where(c => c.Id == cursoEmAndamentoId)
-                .Include(c => c.CursoBase)
                 .FirstAsync();
         }
 
         public async Task<List<CursoEmAndamento>> BuscaCursoEmAndamentoByAlunoId(int alunoId)
         {
             return await _context.Set<CursoEmAndamento>()
-                .Where(c => c.AlunoId == alunoId)
+                .Where(
+                    c =>
+                        c.AlunoId == alunoId && 
+                        c.StatusCurso != Domain.Enums.StatusCursoAndamento.Concluido    
+                 )
                 .ToListAsync();
         }
         

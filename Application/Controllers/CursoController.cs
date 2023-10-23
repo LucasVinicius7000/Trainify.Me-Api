@@ -1,5 +1,6 @@
 ﻿using Trainify.Me_Api.Application.Controllers.Shared;
 using Trainify.Me_Api.Application.Models.Requests;
+using Trainify.Me_Api.Application.Models.Responses;
 using Trainify.Me_Api.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
@@ -72,6 +73,42 @@ namespace Trainify.Me_Api.Application.Controllers
             catch (Exception ex)
             {
                 var response = ApiResponse<Curso>.FailureResponse(ex.Message);
+                return StatusCode(500, response);
+            }
+        }
+
+        [HttpGet("listar/aluno/{alunoId}")]
+        [Authorize(Roles = "Aluno, Organizacao")]
+        public async Task<ActionResult<ApiResponse<CursoEmAndamento>>> ListarCursosEmAndamento([FromRoute] int alunoId)
+        {
+            try
+            {
+                var cursos = await Services.CursoService.ListarCursosEmAndamentoPorAlunoId(alunoId);
+                return StatusCode(200, ApiResponse<List<CursoEmAndamento>>.SuccessResponse(cursos, "Cursos listados com sucesso."));
+            }
+            catch (Exception ex)
+            {
+                var response = ApiResponse<List<CursoEmAndamento>>.FailureResponse(ex.Message);
+                return StatusCode(500, response);
+            }
+        }
+
+        [HttpGet("buscar/andamento/{cursoEmAndamentoId}")]
+        [Authorize(Roles = "Aluno")]
+        public async Task<ActionResult<ApiResponse<CursoEmAndamentoResponse>>> BuscarCursoEmAndamento([FromRoute] int cursoEmAndamentoId)
+        {
+            try
+            {
+                var cursosResponse = new CursoEmAndamentoResponse();
+                var cursoEmAndamento = await Services.CursoService.BuscarCursoEmAndamentoPorId(cursoEmAndamentoId);
+                cursosResponse.CursoEmAndamento = cursoEmAndamento;
+                var curso = await Services.CursoService.BuscarCursoPorId(cursoEmAndamento.CursoBaseId);
+                cursosResponse.Curso = curso;
+                return StatusCode(200, ApiResponse<CursoEmAndamentoResponse>.SuccessResponse(cursosResponse, "Curso encontrado com sucesso."));
+            }
+            catch (Exception ex)
+            {
+                var response = ApiResponse<List<CursoEmAndamentoResponse>>.FailureResponse(ex.Message);
                 return StatusCode(500, response);
             }
         }

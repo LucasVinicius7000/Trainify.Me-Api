@@ -175,6 +175,8 @@ namespace Trainify.Me_Api.Infra.Data.Context
 
             #endregion
 
+            
+        
         }
     }
 }

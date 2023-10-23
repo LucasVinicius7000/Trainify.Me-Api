@@ -51,6 +51,8 @@ namespace Trainify.Me_Api.Services
                         aula.Atividade.Alternativas = await _repositories.Aula.BuscarAlternativasPorAtividadeId(aula.Atividade.Id);
                     }
                 }
+                var aulasOrdernadas = curso.Aulas.OrderBy(a => a.Indice).ToList();
+                curso.Aulas = aulasOrdernadas;
                 if (curso is null || curso.Aulas is null)
                     throw new Exception("Falha ao buscar o curso.");
                 return curso;
@@ -141,6 +143,53 @@ namespace Trainify.Me_Api.Services
                 if (matricula is null)
                     throw new Exception("Erro ao matricular aluno.");
                 return matricula;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public async Task<List<CursoEmAndamento>> ListarCursosEmAndamentoPorAlunoId(int alunoId)
+        {
+            try
+            {
+                if (alunoId <= 0)
+                    throw new Exception("Id do aluno é inválido. Não foi possível listar cursos.");
+
+                var cursos = await _repositories.Curso.BuscaCursoEmAndamentoByAlunoId(alunoId);
+                
+                if (cursos is null)
+                    throw new Exception("Ocorreu um erro ao listar cursos do aluno.");
+
+                var listCurso = new List<CursoEmAndamento>();
+                foreach(var curso in cursos)
+                {
+                    var cursoBase = await _repositories.Curso.GetCursoById(curso.CursoBaseId);
+                    if(cursoBase is not null)
+                    {
+                        curso.CursoBase = cursoBase;
+                        listCurso.Add(curso);
+                    }
+                    
+                }   
+                return listCurso;
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public async Task<CursoEmAndamento> BuscarCursoEmAndamentoPorId(int cursoId)
+        {
+            try
+            {
+                var cursoEmAndamento = await _repositories.Curso.BuscaCursoEmAndamentoById(cursoId);
+                if (cursoEmAndamento is null)
+                    throw new Exception("Erro ao buscar curso em andamento.");
+                return cursoEmAndamento;
             }
             catch (Exception ex)
             {

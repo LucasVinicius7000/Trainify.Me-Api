@@ -18,8 +18,5 @@ namespace Trainify.Me_Api.Domain.Entities
         [NotMapped]
         public Curso CursoBase { get; set; }
 
-
-        // Por hora não haverá a lista de repostas corretas ou erradas.
-
     }
 }
