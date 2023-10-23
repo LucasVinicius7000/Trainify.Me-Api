@@ -142,7 +142,7 @@ async Task CreateDefaultAdminUser(IServiceProvider serviceProvider)
     var adminUser = new User()
     {
         Email = "lucascambraia@unipam.edu.br",
-        UserName = "DefaultAdmin",
+        UserName = "Admin",
         EmailConfirmed = true,
         IsActive = true,
     };
