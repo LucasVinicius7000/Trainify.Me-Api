@@ -11,6 +11,12 @@ namespace Trainify.Me_Api.Application.Controllers
 
         public AuthController(IServiceProvider serviceProvider) : base(serviceProvider) { }
 
+        [HttpGet("status")]
+        public string ApiStatus()
+        {
+            return "Api is running..";
+        }
+
         [HttpPost("login")]
         public async Task<ActionResult<ApiResponse<UsuarioLogadoDTO>>> Login([FromBody] LoginRequest loginRequest)
         {
