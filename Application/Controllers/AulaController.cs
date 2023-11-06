@@ -15,6 +15,7 @@ namespace Trainify.Me_Api.Application.Controllers
 
         [HttpPost("criar")]
         [Authorize(Roles = "Admin, Organizacao, Treinador")]
+        [RequestSizeLimit(524288000)]
         public async Task<ActionResult<ApiResponse<Aula>>> AdicionarAula([FromBody] AdicionarAulaRequest aulaRequest)
         {
             try

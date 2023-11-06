@@ -68,6 +68,10 @@ namespace Trainify.Me_Api.Services
 
 
                 IdentityResult usuarioCriado = await _services.UserManager.CreateAsync(user, criarUsuarioRequest.Senha);
+
+                if (usuarioCriado.Errors.Any(e => e.Code.Contains("DuplicateEmail")))
+                    throw new Exception("Já existe um usuário com o email cadastrado.");
+                
                 if (!usuarioCriado.Succeeded) throw new Exception("Houve um erro ao criar usuário.");
 
                 var createdUser = await _services.UserManager.FindByEmailAsync(criarUsuarioRequest.Email);
