@@ -71,7 +71,22 @@ namespace Trainify.Me_Api.Services
 
                 if (usuarioCriado.Errors.Any(e => e.Code.Contains("DuplicateEmail")))
                     throw new Exception("Já existe um usuário com o email cadastrado.");
-                
+
+                if (usuarioCriado.Errors.Any(e => e.Code.Contains("PasswordTooShort")))
+                    throw new Exception("A senha precisa ter no mínimo 6 caracteres.");
+
+                if (usuarioCriado.Errors.Any(e => e.Code.Contains("PasswordRequiresLower")))
+                    throw new Exception("A senha precisa ter pelo menos uma letra minúscula.");
+
+                if (usuarioCriado.Errors.Any(e => e.Code.Contains("Passwords must have at least one uppercase ('A'-'Z').")))
+                    throw new Exception("A senha precisa ter pelo menos uma letra maiúscula.");
+
+                if (usuarioCriado.Errors.Any(e => e.Code.Contains("PasswordRequiresUpper")))
+                    throw new Exception("A senha precisa ter pelo menos uma letra maiúscula.");
+
+                if (usuarioCriado.Errors.Any(e => e.Code.Contains("PasswordRequiresDigit")))
+                    throw new Exception("A senha precisa ter pelo menos um número.");
+
                 if (!usuarioCriado.Succeeded) throw new Exception("Houve um erro ao criar usuário.");
 
                 var createdUser = await _services.UserManager.FindByEmailAsync(criarUsuarioRequest.Email);
