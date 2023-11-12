@@ -77,6 +77,22 @@ namespace Trainify.Me_Api.Application.Controllers
             }
         }
 
+        [HttpPost("atualizar")]
+        [Authorize(Roles = "Admin,Organizacao")]
+        public async Task<ActionResult<ApiResponse<Curso>>> AtualizarCurso([FromBody] CriarCursoRequest cursoRequest)
+        {
+            try
+            {
+                var cursoAtivado = await Services.CursoService.AtualizarCurso(cursoRequest.ToCursoAtualizado());
+                return StatusCode(200, ApiResponse<Curso>.SuccessResponse(cursoAtivado, "Curso " + cursoAtivado.Nome + " atualizado com sucesso."));
+            }
+            catch (Exception ex)
+            {
+                var response = ApiResponse<Curso>.FailureResponse(ex.Message);
+                return StatusCode(500, response);
+            }
+        }
+
         [HttpGet("listar/aluno/{alunoId}")]
         [Authorize(Roles = "Aluno, Organizacao")]
         public async Task<ActionResult<ApiResponse<CursoEmAndamento>>> ListarCursosEmAndamento([FromRoute] int alunoId)

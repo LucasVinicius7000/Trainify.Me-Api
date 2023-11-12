@@ -36,6 +36,23 @@ namespace Trainify.Me_Api.Services
             }
         }
 
+        public async Task<Curso> AtualizarCurso(Curso curso)
+        {
+            try
+            {
+                if (curso is null || curso.Id <= 0)
+                    throw new Exception("Dados do curso inválidos, erro ao atualizar.");
+                var cursoAtualizado = await _repositories.Curso.EditarCurso(curso);
+                if(cursoAtualizado is null)
+                    throw new Exception("Dados do curso inválidos, erro ao atualizar.");
+                return cursoAtualizado;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
         public async Task<Curso> BuscarCursoPorId(int id)
         {
             try
