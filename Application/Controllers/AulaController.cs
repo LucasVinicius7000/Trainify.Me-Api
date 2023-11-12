@@ -48,6 +48,32 @@ namespace Trainify.Me_Api.Application.Controllers
             }
         }
 
+        [HttpGet("concluir")]
+        [Authorize(Roles = "Aluno")]
+        public async Task<ActionResult<ApiResponse<Aula>>> ConcluirAula([FromQuery] int cursoAndamentoId,[FromQuery] int indiceAulaAtual)
+        {
+            try
+            {
+                var cursoAtuailzado = await Services.AulaService.ConcluirAula(cursoAndamentoId, indiceAulaAtual);
+                var clientMessage = "";
+                if(cursoAtuailzado.StatusCurso == Domain.Enums.StatusCursoAndamento.Concluido)
+                {
+                    clientMessage = "Curso concluído com sucesso!";
+                }
+                else
+                {
+                    clientMessage = "Aula concluída com sucesso";
+                }
+                var response = ApiResponse<CursoEmAndamento>.SuccessResponse(cursoAtuailzado, clientMessage);
+                return StatusCode(201, response);
+            }
+            catch (Exception ex)
+            {
+                var response = ApiResponse<CursoEmAndamento>.FailureResponse(ex.Message);
+                return StatusCode(500, response);
+            }
+        }
+
 
     }
 }

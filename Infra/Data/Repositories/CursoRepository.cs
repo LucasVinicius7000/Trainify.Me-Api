@@ -128,8 +128,7 @@ namespace Trainify.Me_Api.Infra.Data.Repositories
             return await _context.Set<CursoEmAndamento>()
                 .Where(
                     c =>
-                        c.AlunoId == alunoId && 
-                        c.StatusCurso != Domain.Enums.StatusCursoAndamento.Concluido    
+                        c.AlunoId == alunoId  
                  )
                 .ToListAsync();
         }
@@ -155,9 +154,9 @@ namespace Trainify.Me_Api.Infra.Data.Repositories
                 .Where(a => a.Id == aulaIdConcluida)
                 .FirstAsync();
 
-            var indiceProximaAula = aulaConcluida.Indice++;
-            var proximaAula = _context.Set<Aula>()
-                .Where(a => a.Indice == indiceProximaAula && a.CursoId == cursoEmAndamentoId)
+            var indiceProximaAula = aulaConcluida.Indice + 1;
+            var proximaAula = await _context.Set<Aula>()
+                .Where(a => a.Indice == indiceProximaAula && a.CursoId == aulaConcluida.CursoId)
                 .FirstAsync();
 
             var curso = await _context.Set<CursoEmAndamento>()

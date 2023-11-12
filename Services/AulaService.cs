@@ -147,6 +147,37 @@ namespace Trainify.Me_Api.Services
             }
         }
  
-    
+        public async Task<CursoEmAndamento> ConcluirAula(int cursoAndamentoId, int indiceAulaAtual)
+        {
+            try
+            {
+                if (indiceAulaAtual == 0)
+                    throw new Exception("Indice da aula inválido.");
+                var novoIndice = indiceAulaAtual + 1;
+                var cursoEmAndamento = await _services.CursoService.BuscarCursoEmAndamentoPorId(cursoAndamentoId);
+                var aulas = await _repositories.Aula.BuscarAulasPorCursoId(cursoEmAndamento.CursoBaseId);
+                if (aulas is null)
+                    throw new Exception("Falha ao concluir aula.");
+                var aulaAtual = aulas.Where(a => a.Indice == indiceAulaAtual).FirstOrDefault();
+                if(aulaAtual is null)
+                    throw new Exception("Falha ao concluir aula.");
+                var proximaAula = aulas.Where(a => a.Indice == novoIndice).FirstOrDefault();
+                if(proximaAula is null)
+                {
+                    var curso = await _repositories.Curso.ConcluirCurso(cursoAndamentoId);
+                    return curso;
+                }
+                else
+                {
+                    var cursoAtualizado = await _repositories.Curso.AtualizarAulaCursoEmAndamento(aulaAtual.Id, cursoAndamentoId);
+                    return cursoAtualizado;
+                }     
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
     }
 }

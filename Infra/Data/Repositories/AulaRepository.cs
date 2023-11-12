@@ -96,6 +96,18 @@ namespace Trainify.Me_Api.Infra.Data.Repositories
             return alternativaCriada.Entity;
         }
 
+        public async Task<CursoEmAndamento> ConcluirAula(int novoIndiceAulaAtual, int cursoEmAndamentoId)
+        {
+            var cursoEmAndamento = await _context.Set<CursoEmAndamento>()
+                .Where(c => c.Id == cursoEmAndamentoId)
+                .FirstAsync();
+            cursoEmAndamento.AulaAtualId = novoIndiceAulaAtual;
+            var curso = _context.Set<CursoEmAndamento>().Update(cursoEmAndamento);
+            await _context.SaveChangesAsync();
+            return curso.Entity;
+
+        }
+
 
     }
 }
