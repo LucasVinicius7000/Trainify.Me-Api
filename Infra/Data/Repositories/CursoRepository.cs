@@ -173,6 +173,17 @@ namespace Trainify.Me_Api.Infra.Data.Repositories
             return cursoEmAndamento.Entity;
 
         }
+
+        public async Task<Curso> ExcluirCurso(int cursoId)
+        {
+            var curso = await this.GetCursoById(cursoId);
+            if(curso == null) return null;
+            var cursoRemovido = _context.Set<Curso>()
+                .Remove(curso);
+            await _context.SaveChangesAsync();
+            return cursoRemovido.Entity;
+
+        }
         
         #endregion  
 

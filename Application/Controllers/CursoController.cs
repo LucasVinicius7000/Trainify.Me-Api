@@ -129,5 +129,21 @@ namespace Trainify.Me_Api.Application.Controllers
             }
         }
 
+        [HttpGet("excluir/{cursoId}")]
+        [Authorize(Roles = "Organizacao")]
+        public async Task<ActionResult<ApiResponse<Curso>>> ExcluirCurso([FromRoute] int cursoId)
+        {
+            try
+            {
+                var cursoEmAndamento = await Services.CursoService.ExcluirCurso(cursoId);
+                return StatusCode(200, ApiResponse<Curso>.SuccessResponse(cursoEmAndamento, "Curso excluido com sucesso."));
+            }
+            catch (Exception ex)
+            {
+                var response = ApiResponse<List<Curso>>.FailureResponse(ex.Message);
+                return StatusCode(500, response);
+            }
+        }
+
     }
 }

@@ -214,5 +214,22 @@ namespace Trainify.Me_Api.Services
             }
         }
 
+        public async Task<Curso> ExcluirCurso(int cursoId)
+        {
+            try
+            {
+                if (cursoId <= 0)
+                    throw new Exception("O id não corresponde a um curso existente.");
+                var cursoExcluido = await _repositories.Curso.ExcluirCurso(cursoId);
+                if (cursoExcluido == null)
+                    throw new Exception("Falha ao excluir curso.");
+                return cursoExcluido;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
     }
 }
