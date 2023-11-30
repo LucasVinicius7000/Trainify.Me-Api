@@ -26,6 +26,9 @@ namespace Trainify.Me_Api.Domain.Enums
         VideoXmatroska = 6,
 
         [Description("image/png")]
-        ImagePng = 7
+        ImagePng = 7,
+
+        [Description("image/jpg")]
+        ImageJpg = 8
     }
 }
